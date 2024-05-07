@@ -1,0 +1,9 @@
+"login qilib kirilganda  tugmalar : markaz; tergov; cklat; bugalteriya; bular ham yana bolimlarga bolinishi mumkin 
+
+minimal summa (oylik) ham ozi kiritadi   
+foydalanuvchi kiritadigan malumotlar : Lavozim : Nomi koiffsent aklad 
+Rayon : nomi va tip 
+Odamlar : ismi(lotincha va kirilcha ) inn inps plastik raqami qachon ishga kirgani va yonida staj chiqib qoladi 
+Unvon : nomi summasi 
+Markaz : lavozim select; oklad koiffisent avtomatik; stavka (0.5 1) ruchnoy; soat oy select; FIO select; unvon summa select ikkisi; rayon select; tip swlect; bujjuded select (resniy mesyachiy);
+     "
