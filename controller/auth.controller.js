@@ -52,18 +52,18 @@ exports.getProfile = asyncHandler(async (req, res, next) => {
 })
 // update password 
 exports.updatePassword = asyncHandler(async (req, res, next) => {
-    if(!req.user){
-        return next(new ErrorResponse('Siz tizimga kirmagansiz', 403))
-    }
     const {oldPassword, newPassword} = req.body
     if(!oldPassword || !newPassword){
         return next(new ErrorResponse('Sorovlar bosh bolmasligi kerak', 403))
+    }
+    if(newPassword.length < 6){
+        return next(new ErrorResponse('Parol uzunligi 6 ta belgidan kam bolmasligi kerak', 403))
     }
     if(req.user.name === "Respublika"){
         const republic = await Republic.findOne({name : req.user.name})
         const test = await republic.matchPassword(oldPassword)
         if(!test){
-            return next(new ErrorResponse("Parol notog'\ri kiritildi"))
+            return next(new ErrorResponse("Parol notog'ri kiritildi"))
         }
         republic.password = newPassword
         await republic.save()
@@ -71,7 +71,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
     const province = await Province.findOne({name : req.user.name})
     const test = await province.matchPassword(oldPassword)
     if(!test){
-        return next(new ErrorResponse("Parol notog'\ri kiritildi", 403))
+        return next(new ErrorResponse("Parol notog'ri kiritildi", 403))
     }
     province.password = newPassword
     await province.save()
