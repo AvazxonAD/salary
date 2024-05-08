@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('../middlewares/asyncHandler')
 const ErrorResponse = require('../utils/errorResponse')
- 
+
 // authorization 
 exports.protect = asyncHandler(async (req, res, next) => {
     let token 
@@ -9,10 +9,13 @@ exports.protect = asyncHandler(async (req, res, next) => {
         token = req.headers.authorization.split(' ')[1]
     }
     if(!token){
-        return next(new ErrorResponse('He didn\'t miss it', 403))
+        return next(new ErrorResponse('Siz tizimga kirmagansiz', 403))
     }
     const decoded = jwt.verify(token, process.env.JWT_TOKEN_SECRET)
 
     req.user = decoded
+    if(!req.user){
+        return next(new ErrorResponse("Siz tizimga kirmagansiz", 403))
+    }
     next()
 })
