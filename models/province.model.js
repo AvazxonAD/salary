@@ -9,7 +9,7 @@ const provinceSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required : true,
+        default : "myPassword",
         minLength: 6
     },
     republic: {

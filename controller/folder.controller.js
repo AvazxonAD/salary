@@ -85,6 +85,9 @@ exports.updateFolder = asyncHandler(async (req, res, next) => {
     const { name } = req.body
     let parent = null
     const oldFolder = await Folder.findById(req.params.id)
+    if(!oldFolder){
+        return next(new ErrorResponse('Folder topilmadi', 500))
+    }
     if(oldFolder.parent){
         parent = await Republic.findById(oldFolder.parent)
         if(!parent){
@@ -107,25 +110,43 @@ exports.updateFolder = asyncHandler(async (req, res, next) => {
         data : oldFolder
     })
 })
-
-
-// Folderni o'chirish
-exports.deleteFolder = async (req, res, next) => {
-    let parent = null
-    const folder = await Folder.findById(req.params.id)
-    if(folder.parent){
-        parent = await Republic.findById(folder.parent)
-        if(!parent){
-            parent = await Province.findById(folder.parent)
+// delete folder
+exports.deleteFolder = asyncHandler(async (req, res, next) => {
+        const folder = await Folder.findById(req.params.id);
+        if (!folder) {
+            return next(new ErrorResponse('Bunday bolim topilmadi', 404));
         }
-        if(!parent){
-            parent = await Folder.findById(folder.parent)
+        
+        // Parent obyektni aniqlash
+        let parent = null;
+        if (folder.parent) {
+            parent = await Folder.findById(folder.parent);
+            if (!parent) {
+                parent = await Province.findById(folder.parent);
+            }
+            if (!parent) {
+                parent = await Republic.findById(folder.parent);
+            }
         }
-    }
-    const index = parent.indexOf(folder._id)
-    parent.folders.splice(index, 1)
-    await parent.save()
-    
-    await folder.deleteAllFolders()
+        
+        // Agar parent obyekt mavjud bo'lmasa, xatolik qaytarish
+        if (!parent) {
+            return next(new ErrorResponse('Parent obyekt topilmadi', 404));
+        }
 
-};
+        // Folderni parent obyektning folders ro'yxatidan o'chirish
+        const index = parent.folders.indexOf(folder._id);
+        if (index !== -1) {
+            parent.folders.splice(index, 1);
+            await parent.save();
+        }
+
+        // Folder va uning ichidagi barcha subfolderlarni o'chirish
+        await folder.deleteAllFolders();
+
+
+        return res.status(200).json({
+            success: true,
+            data: {}
+        });
+})

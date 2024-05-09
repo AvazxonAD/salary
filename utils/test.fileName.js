@@ -1,17 +1,19 @@
-const File = require('../models/file.model')
+const File = require('../models/file.model');
 
-
-async function fileNameTest(updateFile, masterArray){
-    let testArray = []
-    for(let id of masterArray){
-        const file = await File.findById(id)
-        testArray.push(file)
+async function testFileName(files, parentFiles) {
+    let testFor = [];
+    for (let id of parentFiles) {
+        const file = await File.findById(id);
+        testFor.push(file);
     }
-    for(let file of testArray){
-        if(file.selectLotin === updateFile.selectLotin || file.selectKril === updateFile.selectKril){
-            return false
+    for (let parentFile of testFor) {
+        for (let file of files) {
+            if (file.selectLotin === parentFile.selectLotin || file.selectKril === parentFile.selectKril) {
+                return file;
+            }
         }
-
     }
-    return true
+    return false;
 }
+
+module.exports = testFileName;
