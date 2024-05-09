@@ -45,8 +45,17 @@ const fileSchema = new  mongoose.Schema({
         type : String,
         required : true
     },
-    master : {
-        type : mongoose.Schema.Types.ObjectId
+    folder: {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Folder" 
+    },
+    republic : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Republic"
+    },
+    province : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Province"
     }
 }, {timestamps : true}
 )

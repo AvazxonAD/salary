@@ -1,23 +1,42 @@
-const mongoose  = require('mongoose')
+// models/folder.js
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const folderSchema = new mongoose.Schema({
-    name : {
-        type : String,
-        required : true
+const FolderSchema = new Schema({
+    name: {
+        type: String,
+        required: true
     },
-    master : {
-        type : mongoose.Schema.Types.ObjectId
-    },
-    folder: [{
-        type : mongoose.Schema.Types.ObjectId
+    folders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Folder'
     }],
-    file : [{
-        type :mongoose.Schema.Types.ObjectId
-    }]
-}, {
-    timestamps : true
-}
-)
+    files: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'File'
+    }],
+    parent : {
+        type : mongoose.Schema.Types.ObjectId
+    }
+});
+// Rekursiv ravishda ichidagi barcha folderlarni o'chirish
+FolderSchema.methods.deleteAllSubfolders = async function () {
+    for (const subfolderId of this.folders) {
+        const subfolder = await this.model('Folder').findById(subfolderId);
+        if (subfolder) {
+            await subfolder.deleteAllSubfolders();
+            await subfolder.remove();
+        }
+    }
+};
 
-module.exports = mongoose.model('Folder', folderSchema)
+// Asosiy folder va undagi barcha subfolderlarni o'chirish
+FolderSchema.methods.deleteAllFolders = async function () {
+    await this.deleteAllSubfolders();
+    await this.remove();
+};
 
+
+const Folder = mongoose.model('Folder', FolderSchema);
+
+module.exports = Folder;

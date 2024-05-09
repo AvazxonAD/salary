@@ -13,13 +13,16 @@ const provinceSchema = new mongoose.Schema({
         minLength: 6
     },
     republic: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Republic'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Republic'
     },
-    folder: [{
-        type : mongoose.Schema.Types.ObjectId
+    folders: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Folder"
     }],
-    file : [{
-        type :mongoose.Schema.Types.ObjectId
+    files: [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "File"
     }]
 },
     {timestamps: true}

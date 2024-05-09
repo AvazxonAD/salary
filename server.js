@@ -18,6 +18,7 @@ const {
     createXorazm,
     createNavoiy
 } = require('./utils/create.province')
+
 const minimum = require('./utils/create.Minimum')
 const dotenv = require('dotenv')
 dotenv.config()
@@ -54,6 +55,8 @@ app.use('/worker', require('./router/worker.router'))
 app.use('/minimum', require('./router/minimum.router'))
 app.use('/republic', require('./router/republic.router'))
 app.use('/province', require('./router/province.router'))
+app.use('/folder', require('./router/folder.router'))
+app.use('/file', require('./router/file.router'))
 
 
 app.use(errorHandler)
