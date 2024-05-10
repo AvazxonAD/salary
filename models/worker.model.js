@@ -26,7 +26,7 @@ const workerSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    master: {
+    parent: {
         type: mongoose.Schema.Types.ObjectId,
     }
 }, {

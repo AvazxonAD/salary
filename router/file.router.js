@@ -10,9 +10,9 @@ const {
     deleteFile
 } = require('../controller/file.controller')
 
-router.get('/get/:id', getById)
-router.post('/create/:id', createFile)
-router.put('/put/:id', updateFile)
-router.delete('/delete/:id', deleteFile)
+router.get('/get/:id',protect, getById)
+router.post('/create/:id',protect, createFile)
+router.put('/put/:id',protect, updateFile)
+router.delete('/delete/:id',protect, deleteFile)
 
 module.exports = router

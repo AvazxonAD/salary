@@ -9,7 +9,7 @@ const rankSchema = new mongoose.Schema({
         type: Number,
         required : true,
     },
-    master: {
+    parent: {
         type: mongoose.Schema.Types.ObjectId,
     }
 }, {

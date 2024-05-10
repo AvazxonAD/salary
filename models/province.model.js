@@ -23,6 +23,22 @@ const provinceSchema = new mongoose.Schema({
     files: [{
         type :mongoose.Schema.Types.ObjectId,
         ref : "File"
+    }],
+    positions : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Position"
+    }],
+    ranks : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Rank"
+    }],
+    regions : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Region"
+    }],
+    workers : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Worker"
     }]
 },
     {timestamps: true}
@@ -30,7 +46,7 @@ const provinceSchema = new mongoose.Schema({
 
 // Parolni hashlash
 provinceSchema.pre('save', async function(next) {
-    if (!this.isModified()) {
+    if (!this.isModified('password')) {
         return next();
     }
     this.password = await bcrypt.hash(this.password, 10);

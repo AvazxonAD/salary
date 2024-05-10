@@ -13,8 +13,8 @@ const positionSchema = new mongoose.Schema({
         type : Number,
         required : true
     },    
-    master : {
-        type: mongoose.Schema.Types.ObjectId,
+    parent : {
+        type : mongoose.Schema.Types.ObjectId
     }
 }, {
     timestamps: true

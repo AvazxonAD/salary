@@ -9,7 +9,7 @@ const regionSchema = new mongoose.Schema({
         type: String,
         required : true,
     },
-    master: {
+    parent: {
         type: mongoose.Schema.Types.ObjectId,
     }
 }, {

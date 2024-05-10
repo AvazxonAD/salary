@@ -5,7 +5,7 @@ const {protect} = require('../middlewares/auth')
 
 const {getMinimum, updateMinimum} = require('../controller/minimum.controller')
 
-router.get('/get', protect, getMinimum)
-router.put('/put',protect,  updateMinimum)
+router.get('/get',protect, getMinimum)
+router.put('/put',protect, updateMinimum)
 
 module.exports = router 

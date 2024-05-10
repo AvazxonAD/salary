@@ -23,6 +23,22 @@ const republicSchema = new mongoose.Schema({
     files : [{
         type :mongoose.Schema.Types.ObjectId,
         ref : "Folder"
+    }],
+    positions : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Position"
+    }],
+    ranks : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Rank"
+    }],
+    regions : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Region"
+    }],
+    workers : [{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Worker"
     }]
 }, {
     timestamps: true
@@ -30,10 +46,11 @@ const republicSchema = new mongoose.Schema({
 
 // Parolni hashlash
 republicSchema.pre('save', async function(next) {
-    if (!this.isModified()) {
+    if (!this.isModified('password')) { // Faqatgina "password" maydoni o'zgartirilganda
         return next();
     }
-    this.password = await bcrypt.hash(this.password, 10);
+    const salt = 10;
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 });
 

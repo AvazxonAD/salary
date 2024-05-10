@@ -12,11 +12,11 @@ const {
     deleteFolder
 } = require('../controller/folder.controller')
 
-router.get('/get/:id', getFolderById)
-router.get('/open/:id', openFolder)
-router.post('/create/:id', createFolder)
-router.put('/put/:id', updateFolder)
-router.delete('/delete/:id', deleteFolder)
+router.get('/get/:id',protect, getFolderById)
+router.get('/open/:id',protect, openFolder)
+router.post('/create/:id',protect, createFolder)
+router.put('/put/:id',protect, updateFolder)
+router.delete('/delete/:id',protect, deleteFolder)
 
 
 module.exports = router

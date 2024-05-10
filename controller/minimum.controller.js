@@ -2,11 +2,12 @@ const Minimum = require('../models/minimumMonthly.model')
 const asyncHandler = require('../middlewares/asyncHandler')
 const ErrorResponse = require('../utils/errorResponse')
 const Position = require('../models/position.model')
+const File = require('../models/file.model')
 
 // update minimum summa 
 exports.updateMinimum = asyncHandler(async (req, res, next) => {
-    if(!req.user){
-        return next(new ErrorResponse('Siz tizimga kirmagansiz',403))
+    if(req.user.name !== "Respublika"){
+        return next(new ErrorResponse('Bu funksiyaga faqat respublika uchun ruhsat berilgan', 403))
     }
     const oldMinimum = await Minimum.find()
     const {summa} = req.body
@@ -22,6 +23,11 @@ exports.updateMinimum = asyncHandler(async (req, res, next) => {
         position.salary = summa * position.percent
         await position.save()
     }
+    const files = await File.find()
+    for(let file of files){
+        file.selectSalary = file.selectPercent * summa
+        await file.save()
+    }
     res.status(200).json({
         success : true,
         data : newSumma
@@ -29,12 +35,10 @@ exports.updateMinimum = asyncHandler(async (req, res, next) => {
 })
 // get minimum summa 
 exports.getMinimum = asyncHandler(async (req, res, next) => {
-    if(!req.user){
-        return next(new ErrorResponse('Siz tizimga kirmagansiz',403))
-    }
-    const oldMinimum = await Minimum.find()
-    res.status(200).json({
-        success :  true,
-        data : oldMinimum[0]
+    const minimum = await Minimum.find().lean()
+
+    return res.status(200).json({
+        success : true,
+        data : minimum[0]
     })
 })

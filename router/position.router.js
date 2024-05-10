@@ -14,7 +14,7 @@ const {protect} = require('../middlewares/auth')
 router.get('/get', protect, getAllPosition)
 router.get('/get/:id', protect, getPositionById)
 router.post('/create', protect, createPosition)
-router.put('/put/:id', protect, updatePosition)
-router.delete('/delete/:id', protect , deletePosition)
+router.put('/put/:id',protect, updatePosition)
+router.delete('/delete/:id',protect, deletePosition)
 
 module.exports = router
