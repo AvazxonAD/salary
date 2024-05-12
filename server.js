@@ -57,11 +57,11 @@ app.use('/republic', require('./router/republic.router'))
 app.use('/province', require('./router/province.router'))
 app.use('/folder', require('./router/folder.router'))
 app.use('/file', require('./router/file.router'))
-
+app.use('/privilege', require('./router/privilege.router'))
 
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
     console.log(`server run on port : ${PORT}`.bgBlue)
-})
+}) 
