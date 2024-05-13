@@ -26,6 +26,28 @@ const workerSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    payments : {
+            salary : {type : Number, default : 0},
+            rank : {type : Number, default : 0},
+            yearOfService : {type : Number, default : 0},
+            apartmentPayment : {type : Number, default : 0},
+            Fmc : {type : Number, default : 0},
+            foodMoney : {type : Number, default : 0},
+            wagesForHarm : {type : Number, default : 0},
+            totalPayments : {type : Number, default : 0}
+        },
+    privilege : {
+        type : Number,
+        default : 0
+    },
+    deductionFromSalary : {
+        sportsFund : {type : Number, default : 0},
+        tradeUnion : {type : Number, default : 0},
+        incomeTax : {type : Number, default : 0},
+        alimony : {type : Number, default : 0},
+        penalty : {type : Number, default : 0},
+        totalDeduction : {type : Number, default : 0}
+    },
     parent: {
         type: mongoose.Schema.Types.ObjectId,
     }

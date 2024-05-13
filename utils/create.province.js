@@ -6,7 +6,8 @@ async function createAndijon(){
     if(!province){
         const newProvince = await Province.create({
             name : "Andijon",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -22,7 +23,8 @@ async function createBuxoro(){
     if(!province){
         const newProvince = await Province.create({
             name : "Buxoro",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -38,7 +40,8 @@ async function createFargona(){
     if(!province){
         const newProvince = await Province.create({
             name : "Farg'ona",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -54,7 +57,8 @@ async function createJizzax(){
     if(!province){
         const newProvince = await Province.create({
             name : "Jizzax",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -70,7 +74,8 @@ async function createNamangan(){
     if(!province){
         const newProvince = await Province.create({
             name : "Namangan",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -86,7 +91,8 @@ async function createQashqadaryo(){
     if(!province){
         const newProvince = await Province.create({
             name : "Qashqadaryo",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -102,7 +108,8 @@ async function createSamarqand(){
     if(!province){
         const newProvince = await Province.create({
             name : "Samarqand",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -118,7 +125,8 @@ async function createSirdaryo(){
     if(!province){
         const newProvince = await Province.create({
             name : "Sirdaryo",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -134,7 +142,8 @@ async function createSurxondaryo(){
     if(!province){
         const newProvince = await Province.create({
             name : "Surxondaryo",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -150,7 +159,8 @@ async function createToshkent(){
     if(!province){
         const newProvince = await Province.create({
             name : "Toshkent",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -166,7 +176,8 @@ async function createXorazm(){
     if(!province){
         const newProvince = await Province.create({
             name : "Xorazm",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },
@@ -182,7 +193,8 @@ async function createNavoiy(){
     if(!province){
         const newProvince = await Province.create({
             name : "Navoiy",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         })
         await Republic.findOneAndUpdate(
             { name: "Respublika" },

@@ -12,6 +12,7 @@ const republicSchema = new mongoose.Schema({
         default : "myPassword",
         minLength: 6
     },
+    passwordInfo : String,
     province: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Province'

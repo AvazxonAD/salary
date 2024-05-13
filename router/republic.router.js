@@ -3,10 +3,10 @@ const router = Router()
 
 const {protect} = require('../middlewares/auth')
 
-const {getRepublic, getAllProvince} = require('../controller/republic.controller')
+const {getRepublicById, getAllProvince} = require('../controller/republic.controller')
 
 
-router.get('/get/republic', protect, getRepublic )
+router.get('/get/republic', protect, getRepublicById )
 router.get('/get/province', protect, getAllProvince)
 
 module.exports = router

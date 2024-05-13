@@ -30,14 +30,14 @@ exports.login = asyncHandler(async (req, res, next) => {
 // get profile 
 exports.getProfile = asyncHandler(async (req, res, next) => {
     if(req.user.name === "Respublika"){
-        const republic = Republic.findOne({name : req.user.name})
-        res.status(200).json({
+        const republic = await Republic.findOne({name : "Respublika"})
+        return res.status(200).json({
             success : true,
             data : republic
         })
     }
     const province = await Province.findOne({name : req.user.name})
-    res.status(200).json({
+    return res.status(200).json({
         success : true,
         data : province
     })
@@ -66,6 +66,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Notog\'ri parol kiritildi', 403))
     }
     after.password = newPassword.trim()
+    after.passwordInfo = newPassword.trim()
     await after.save()
     return res.status(200).json({
         success : true,

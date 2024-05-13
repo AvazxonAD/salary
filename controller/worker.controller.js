@@ -11,7 +11,7 @@ exports.getAllWorker = asyncHandler(async (req, res, next) => {
         data : workers
     })
 })
-// create new position 
+// create new workers
 exports.createWorker = asyncHandler(async (req, res, next) => {
     const { workers } = req.body
     let result = []
@@ -43,7 +43,99 @@ exports.createWorker = asyncHandler(async (req, res, next) => {
             return next(new ErrorResponse('Bu innga ega fuqaro oldin kiritilgan',403))
         }
     }
-    for(let worker of workers){
+    // tolovlar 
+    let salary = null;
+    let rank = null;
+    let yearOfService = null;
+    let apartmentPayment = null;
+    let Fmc = null;
+    let foodMoney = null;
+    let wagesForHarm = null;
+    let totalPayments = null 
+    // ushlanmalar 
+    let sportsFund = null
+    let tradeUnion = null
+    let incomeTax = null 
+    let alimony = null 
+    let penalty = null 
+    let totalDeduction = null 
+    for (let worker of workers) {
+        // tolovlar 
+        if (worker.payments.salary) {
+            salary = worker.payments.salary;
+        }else{salary = 0}
+        if (worker.payments.rank) {
+            rank = worker.payments.rank;
+        }else{rank = 0}
+        if(worker.payments.yearOfService && salary){
+            const dateOfEmployment = new Date(worker.dateOfEmployment);
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const dateEmploymentYear = dateOfEmployment.getFullYear();
+            const difference = Math.abs(currentYear - dateEmploymentYear);
+            
+            if (difference < 5) {
+                yearOfService = 0;
+            } else if (difference >= 5 && difference < 10) {
+                yearOfService = salary * 0.1;
+            } else if (difference >= 10 && difference < 15) {
+                yearOfService = salary * 0.2;
+            } else if (difference >= 15 && difference < 20) {
+                yearOfService = salary * 0.3;
+            } else if (difference >= 20 && difference < 25) {
+                yearOfService = salary * 0.4;
+            } else if (difference >= 25 && difference < 30) {
+                yearOfService = salary * 0.5;
+            } else if (difference >= 30 && difference < 35) {
+                yearOfService = salary * 0.6;
+            } else if (difference >= 35 && difference < 40) {
+                yearOfService = salary * 0.7;
+            } else if (difference >= 40 && difference < 45) {
+                yearOfService = salary * 0.8;
+            } else if (difference >= 45 && difference < 50) {
+                yearOfService = salary * 0.9;
+            } else if (difference >= 50 && difference < 55) {
+                yearOfService = salary * 1;
+            }
+        }else{yearOfService = 0}
+        if(worker.payments.apartmentPayment){
+            apartmentPayment = worker.payments.apartmentPayment
+        }else{apartmentPayment = 0}
+        if(worker.payments.Fmc && salary && rank){
+            Fmc = (salary + rank) * 0.1
+        }else{Fmc = 0}
+        if(worker.payments.foodMoney){
+            foodMoney = worker.payments.foodMoney
+        }else{ foodMoney= 0}
+        if(worker.payments.wagesForHarm && salary && rank){
+            wagesForHarm = salary + rank + yearOfService 
+        }else{wagesForHarm = 0}
+        // jami tolovlar
+        totalPayments = salary + rank + yearOfService + apartmentPayment + Fmc + foodMoney + wagesForHarm + totalPayments 
+        // ushlanmalar
+        if(worker.deductionFromSalary.sportsFund && salary){
+            sportsFund = salary * 0.001 
+        }else {sportsFund = 0 }
+        if(worker.deductionFromSalary.tradeUnion &&  totalPayments){
+            tradeUnion = totalPayments * 0.001
+        }else{ tradeUnion = 0}
+        if(worker.deductionFromSalary.incomeTax && worker.privilege && totalPayments){
+            incomeTax = (totalPayments - worker.privilege) * 0.12 
+        }else{ incomeTax = 0 }
+        if(worker.deductionFromSalary.alimony.percent && totalPayments && incomeTax){
+            alimony = (totalPayments - incomeTax) * (worker.deductionFromSalary.alimony.percent / 100)
+        }else{ alimony = 0}
+        if(worker.deductionFromSalary.penalty.penalty){
+            if(worker.deductionFromSalary.penalty.salary && worker.deductionFromSalary.penalty.percent){
+                penalty = salary * (worker.deductionFromSalary.penalty.percent / 100)
+            }else if(worker.deductionFromSalary.penalty.rank && worker.deductionFromSalary.penalty.percent){
+                penalty = rank * (worker.deductionFromSalary.penalty.percent /100)
+            }else if(worker.deductionFromSalary.penalty.totalPayments && worker.deductionFromSalary.penalty.percent){
+                penalty = totalPayments * (worker.deductionFromSalary.penalty.percent / 100)
+            }else{penalty = 0}
+        }else{ penalty = 0}
+        // jami ushlanmalar
+        totalDeduction = sportsFund + tradeUnion + incomeTax + alimony + penalty
         const newWorker = await Worker.create({
             FIOlotin : worker.FIOlotin.trim(),
             FIOkril : worker.FIOkril.trim(),
@@ -51,6 +143,25 @@ exports.createWorker = asyncHandler(async (req, res, next) => {
             inps : worker.inps,
             plastic : worker.plastic,
             dateOfEmployment : worker.dateOfEmployment,
+            privilege : worker.privilege,
+            payments : {
+                salary : worker.payments.salary,
+                rank : worker.payments.rank,
+                yearOfService,
+                apartmentPayment,
+                Fmc,
+                foodMoney,
+                wagesForHarm,
+                totalPayments
+            },
+            deductionFromSalary : {
+                sportsFund,
+                tradeUnion,
+                incomeTax,
+                alimony, 
+                penalty,
+                totalDeduction
+            },
             parent: parent._id
         })
         parent.workers.push(newWorker._id)

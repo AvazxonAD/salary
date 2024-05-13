@@ -5,7 +5,8 @@ async function createRepublic(){
     if(!republic){
         const newRepublic = {
             name : "Respublika",
-            password : "myPassword"
+            password : "myPassword",
+            passwordInfo : "myPassword"
         }
         await Republic.create(newRepublic)
         return;
