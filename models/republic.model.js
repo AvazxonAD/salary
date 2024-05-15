@@ -44,6 +44,10 @@ const republicSchema = new mongoose.Schema({
     privileges : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : "Privilege"
+    }],
+    tables : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Table"
     }]
 }, {
     timestamps: true

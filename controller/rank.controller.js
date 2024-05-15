@@ -31,6 +31,11 @@ exports.createRank = asyncHandler(async (req, res, next) => {
         if(testRank){
             return next(new ErrorResponse(`Bu unvon oldin kiritilgan ${testRank}`, 403))
         }
+        if(rank.name === "Fuqaro"){
+            if(rank.summa !== 0 ){
+                return next(new ErrorResponse("Oddiy fuqaro unvon puli 0 ga teng", 403))
+            }
+        }
     }
     for(let rank of ranks){
         const newRank = await Rank.create({

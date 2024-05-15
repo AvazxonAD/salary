@@ -6,32 +6,23 @@ const Folder = require('../models/folder.model')
 const File = require('../models/file.model')
 const testFolderName = require('../utils/testFolderName')
 
-
-// open folder 
+// get open folder 
 exports.openFolder = asyncHandler(async (req, res, next) => {
+    let folders = []
+    let files = []
     const folder = await Folder.findById(req.params.id)
-    const republic = await Republic.findById(req.params.id)
-    const province = await Province.findById(req.params.id)
-    let result = []
-    if(folder && folder.folders.length > 0){
-        result = await Folder.find({ _id: { $in: folder.folders } });
+    if(folder.folders.length > 0){
+        folders = await Folder.find({_id : {$in : folder.folders}})
     }
-    else if(province && province.folders.length > 0){
-        result = await Folder.find({ _id: { $in: province.folders } });
+    if(folder.files.length > 0){
+        files = await File.find({_id : {$in : folder.files}})
     }
-    else if(republic && republic.folders.length > 0){
-        result = await Folder.find({ _id: { $in: republic.folders } });
-    }
-    
     return res.status(200).json({
         success : true,
-        data : result
+        folders,
+        files
     })
 })
-
-
-
-
 // create folder
 exports.createFolder = asyncHandler(async (req, res, next) => {
     const { name } = req.body
@@ -147,6 +138,6 @@ exports.deleteFolder = asyncHandler(async (req, res, next) => {
 
         return res.status(200).json({
             success: true,
-            data: {}
+            data: "Delete"
         });
 })

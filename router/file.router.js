@@ -7,9 +7,11 @@ const {
     createFile,
     getById,
     updateFile,
-    deleteFile
+    deleteFile,
+    getFileForPage
 } = require('../controller/file.controller')
 
+router.get('/get/page/for', protect, getFileForPage)
 router.get('/get/:id',protect, getById)
 router.post('/create/:id',protect, createFile)
 router.put('/put/:id',protect, updateFile)

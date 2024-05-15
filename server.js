@@ -58,6 +58,7 @@ app.use('/province', require('./router/province.router'))
 app.use('/folder', require('./router/folder.router'))
 app.use('/file', require('./router/file.router'))
 app.use('/privilege', require('./router/privilege.router'))
+app.use('/table', require('./router/table.router'))
 
 app.use(errorHandler)
 

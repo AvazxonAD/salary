@@ -6,6 +6,10 @@ const Republic = require('../models/republic.model')
 const Province = require('../models/province.model')
 const testFileName = require('../utils/test.fileName')
 const testOneFileName = require('../utils/testOneFileName')
+const Position = require('../models/position.model')
+const Rank = require('../models/rank.model')
+const Worker = require('../models/worker.model')
+const Region = require('../models/region.model')
 
 // create file 
 exports.createFile = asyncHandler(async (req, res, next) => {
@@ -22,7 +26,7 @@ exports.createFile = asyncHandler(async (req, res, next) => {
     }
 
     if (!parent) {
-        return next(new ErrorResponse('Bunday ota-ona bo\'lim topilmadi', 404));
+        return next(new ErrorResponse('Bunday  bo\'lim topilmadi', 404));
     }
     const testFile = await testFileName(files, parent.files)
     if (testFile) {
@@ -30,7 +34,7 @@ exports.createFile = asyncHandler(async (req, res, next) => {
     }
 
     for (let file of files) {
-        if (!file.selectPosition || !file.selectSalary || !file.selectPercent || !file.limit || !file.selectLotin || !file.selectKril || !file.budget || !file.selectType || !file.selectRegion || !file.selectSumma || !file.selectRank) {
+        if (!file.selectPosition || !file.selectSalary || !file.selectPercent ||  !file.selectLotin || !file.selectKril || !file.budget || !file.selectType || !file.selectRegion  || !file.selectRank) {
             return next(new ErrorResponse('Sorovlar bosh qolmasligi kerak', 403));
         }
     }
@@ -39,7 +43,6 @@ exports.createFile = asyncHandler(async (req, res, next) => {
             selectPosition: file.selectPosition,
             selectSalary: file.selectSalary,
             selectPercent: file.selectPercent,
-            limit: file.limit,
             selectLotin: file.selectLotin,
             selectKril: file.selectKril,
             budget: file.budget,
@@ -47,7 +50,9 @@ exports.createFile = asyncHandler(async (req, res, next) => {
             selectRegion: file.selectRegion,
             selectSumma: file.selectSumma,
             selectRank: file.selectRank,
-            parent: parent._id
+            parent: parent._id,
+            master : req.user.id,
+            dateOfEmployment : file.dateOfEmployment
         });
 
         result.push(newFile);
@@ -148,5 +153,19 @@ exports.deleteFile = asyncHandler(async (req, res, next) => {
     return res.status(200).json({
         success : true,
         data : 'Delete'
+    })
+})
+// get file for page 
+exports.getFileForPage = asyncHandler(async (req, res, next) => {
+    const positions = await Position.find({parent : req.user.id}).select('-_id')
+    const FIO = await Worker.find({parent : req.user.id}).select("FIOlotin FIOkril dateOfEmployment -_id")
+    const ranks = await Rank.find({parent : req.user.id}).select("name -_id")
+    const regions = await Region.find({parent : req.user.id}).select("name type -_id")
+    return res.status(200).json({
+        success : true,
+        positions,
+        FIO,
+        ranks,
+        regions
     })
 })

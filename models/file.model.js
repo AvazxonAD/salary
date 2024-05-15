@@ -13,10 +13,6 @@ const fileSchema = new  mongoose.Schema({
         type : Number,
         required : true
     },
-    limit : {
-        type : Number,
-        required : true
-    },
     selectLotin : {
         type : String,
         required : true
@@ -25,14 +21,8 @@ const fileSchema = new  mongoose.Schema({
         type : String,
         required : true
     },
-    selectRank : {
-        type : String,
-        required : true
-    },
-    selectSumma : {
-        type : Number,
-        required : true
-    },
+    selectRank : String,
+    selectSumma : Number,
     selectRegion : {
         type : String,
         required : true
@@ -45,9 +35,12 @@ const fileSchema = new  mongoose.Schema({
         type : String,
         required : true
     },
-    parent : {
-        type : mongoose.Schema.Types.ObjectId
-    }
+    parent : mongoose.Schema.Types.ObjectId,
+    master : mongoose.Schema.Types.ObjectId,
+    dateOfEmployment : {
+        type : Date,
+        required : true
+    } 
 }, {timestamps : true}
 )
 
